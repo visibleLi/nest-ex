@@ -3,6 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { DbService } from 'src/db/db.service';
 import { User } from './entities/user.entity';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class UserService {
@@ -41,5 +42,19 @@ export class UserService {
 
   remove(id: number) {
     return `This action removes a #${id} user`;
+  }
+  async login(loginUserDto:LoginUserDto){
+    console.log('wpp');
+    const users: User[] = await this.dbservice.read();
+    const findUser = users.find(
+      (user) => user.username === loginUserDto.username,
+    );
+    if (!findUser) {
+      throw new BadRequestException('该用户不存在');
+    }
+    if(findUser.bypassword !== loginUserDto.bypassword){
+      throw new BadRequestException('密码错误');
+    }
+    return findUser;
   }
 }
