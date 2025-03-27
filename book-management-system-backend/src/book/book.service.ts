@@ -25,9 +25,13 @@ export class BookService {
     return book;
   }
 
-  async findAll() {
+  async findAll(name?: string) {
     const books: Book[] = await this.dbService.read();
-    return books;
+    return name
+      ? books.filter((item) => {
+          return item.name.includes(name);
+        })
+      : books;
   }
 
   async findOne(id: number) {

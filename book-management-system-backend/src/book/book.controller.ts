@@ -11,6 +11,7 @@ import {
   UseInterceptors,
   UploadedFile,
   BadRequestException,
+  Query,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { createBookSchema, CreateBookDto } from './dto/book.dto';
@@ -31,8 +32,8 @@ export class BookController {
   }
 
   @Get('list')
-  findAll() {
-    return this.bookService.findAll();
+  findAll(@Query('name') name: string) {
+    return this.bookService.findAll(name);
   }
 
   @Get(':id')
