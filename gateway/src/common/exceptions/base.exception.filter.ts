@@ -68,6 +68,7 @@ import {
   ArgumentsHost,
   HttpStatus,
   HttpException,
+  InternalServerErrorException
 } from '@nestjs/common';
 import { BusinessException } from './business.exception';
 
@@ -127,11 +128,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
     // [PLATFORM-SWITCH] 发送响应
     // [Fastify]  response.status(HttpStatus.SERVICE_UNAVAILABLE).send({ ... });
     // [Express]  response.status(HttpStatus.SERVICE_UNAVAILABLE).json({ ... });
-    response.status(HttpStatus.SERVICE_UNAVAILABLE).send({
-      statusCode: HttpStatus.SERVICE_UNAVAILABLE,
+    response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
       timestamp: new Date().toISOString(),
       path: request.url,
-      message: 'Service Unavailable',
-    });
+      message: new InternalServerErrorException().message, // 使用默认的 "Internal Server Error" 消息
+    })
   }
 }
