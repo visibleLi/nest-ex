@@ -37,3 +37,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
     });
   }
 }
+
+
+// 切换为 Express
+// 从 import { FastifyReply, FastifyRequest } from 'fastify'; 改为 import { Request, Response } from 'express';。
+// 将 .send() 改为 .json()，这是 Express 中发送 JSON 响应更规范的方式。
